@@ -3,80 +3,71 @@
 
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 using namespace std;
 
 int main()
 {
-    std::cout << "Chapter 8 Payroll with 2D Array & File by Kevin Bell\n\n";
-	//Create a project that uses a 2D array to contain the hours worked each day of the week for employees. 
-	//The file has 6 lines in it, one for each employee.
-	//It begins with the pay rate for that employee, then has the hours worked for each day of the week.
-	//For example:
-	//10.00  8  7  7  8  6
-	//This record shows the pay rate for this employee is $10.00, and the employee worked 8 hours on Monday, 7 hours on Tuesday, 7 hours on Wednesday, 8 hours on Thursday, 
-	// and 6 hours on Friday.
-	//You can read the first item from a line in this file, store it as the pay rate for this employee, then use a loop to read the next 5 items
-	//You can read the data into a single 2D array, with pay rate in the 0th (zeroth) cell in each row, then hours in the other 5 cells, one row for each employee. 
-	//Or you can use parallel arrays -- a regular array holding the pay rates, and a 2D array holding the hours worked for each day for each employee.
-	//Read that data from the file "payroll.txt" into the 2D array.
-	//After filling the array, display the hours worked by each employee.
-	//Calculate the pay for each employee and the total payroll for all employees and display that data.
-
+	std::cout << "Chapter 8 Payroll with 2D Array & File by Kevin Bell\n\n";
 	//Declare variables
 	const int NUM_EMPLOYEES = 6;
 	const int NUM_DAYS = 5;
-	double payRate[NUM_EMPLOYEES];	//Array to hold the pay rate for each employee
-	double totalHours[NUM_EMPLOYEES];	//Array to hold the total hours worked for each employee
-	double hours[NUM_EMPLOYEES][NUM_DAYS];	//2D array to hold the hours worked for each employee for each day
-	double totalPay[NUM_EMPLOYEES];	//Array to hold the total pay for each employee
-	double totalPayroll = 0;	//Variable to hold the total payroll for all employees
-	double hourlyPayRate = 0;	//Variable to hold the hourly pay rate for each employee
+	double hrsWorked[6][6]; //2D array to hold hours worked
+	double payRate[6]; //array to hold pay rate
+	double pay[6]; //array to hold pay
+	double totalHoursWorked = 0; //total hours worked
+	double totalPay = 0; //variable to hold total pay
+	int i = 0; //loop counter
+	int j = 0; //loop counter
 	
-	//Open the file
+	//Open file
 	ifstream inputFile;
-	inputFile.open("payroll.txt");		//Open the file
-
-	//Read the data from the file into the 2D array
-	for (int i = 0; i < NUM_EMPLOYEES; i++)
-	{
-		inputFile >> payRate[i];	//Read the pay rate for each employee
-		for (int j = 0; j < NUM_DAYS; j++)
-		{
-			inputFile >> hours[i][j];	//Read the hours worked for each employee for each day
+	inputFile.open("payroll.txt");
+	
+	//Read data from file
+	if (!inputFile) {
+		
+		cout << "Error opening file. Program terminating.\n";
+	} 
+	else {
+		//Read data from file
+		while (inputFile >> payRate[i]) {
+			for (j = 0; j < NUM_DAYS; j++) {
+				inputFile >> hrsWorked[i][j];
+			} //end for
+			i++;
+		} //end while
+		//Close file
+		inputFile.close();
+	} //end else
+	
+	//Display hours worked by each employee
+	cout << "Hours worked by each employee:\n\n";
+	for (i = 0; i < NUM_EMPLOYEES; i++) {
+		cout << "Employee " << i + 1 << ": ";
+		for (j = 0; j < NUM_DAYS; j++) {
+			cout << fixed << setprecision(2) << hrsWorked[i][j] << "    ";
 		}
-	} //End for loop
-	
-	
-	
-	//Close the file
-	inputFile.close();
-	
-	//Display the hours worked by each employee
-	std::cout << "Employee hours:\n";
-	for (int i = 0; i < NUM_EMPLOYEES; i++)
-	{
-		std::cout << "Employee " << i + 1 << ": ";
-		for (int j = 0; j < NUM_DAYS; j++)
-		{
-			std::cout << hours[i][j] << " ";
-		} //end for loop
-		std::cout << std::endl;
+		cout << endl;
 	} //end for loop
 	cout << endl;
-	cout << "Payroll" << endl;
-	totalHours[0] = hours[0][0] + hours[0][1] + hours[0][2] + hours[0][3] + hours[0][4];
-	for (int i = 0; i < NUM_EMPLOYEES; i++)
-	{
-		totalPay[i] = 0;
-		for (int j = 0; j < NUM_DAYS; j++)
-		{
-			totalPay[i] += hours[i][j] * hourlyPayRate;
-		} //end for loop
-		totalPayroll += totalPay[i];
-		std::cout << "Employee " << i + 1 <<", rate = $"<< payRate[i] << ", hrs = " << totalHours[i] << ", pay = $" << totalPay[i] << endl;
+	cout << "Payroll" << endl << endl;
+	cout << "Employee\tPay Rate\tHours Worked\tPay" << endl;
+	cout << "------------------------------------------------------------" << endl;
+	//Calculate pay for each employee and total payroll
+	for (i = 0; i < NUM_EMPLOYEES; i++) {
+		pay[i] = 0;
+		for (j = 0; j < NUM_DAYS; j++) {
+			pay[i] += hrsWorked[i][j] * payRate[i];
+			totalHoursWorked += hrsWorked[i][j];
+		} //end for
+		totalPay += pay[i];
+		cout << i + 1 << "\t\t" << payRate[i] << "\t\t" << totalHoursWorked << "\t\t" << fixed << setprecision(2) << pay[i] << endl;
+		totalHoursWorked = 0;
 	} //end for loop
+	cout << "------------------------------------------------------------" << endl;
 	cout << endl;
-	std::cout << "Total for payroll = $" << totalPayroll << endl;
+	cout << "Total Payroll: $" << fixed << setprecision(2) << totalPay << endl;
 	system("pause");
 	return 0;
 } // end main
