@@ -2,7 +2,7 @@
 
 Create a project that uses a 2D array to contain the hours worked each day of the week for employees. Read that data from this fileDownload this file into the 2D array. After filling the array, display the hours worked by each employee. Calculate the pay for each employee and the total payroll for all employees and display that data. The result could look like this:
 
-Ch 8 Payroll
+![Ch 8 Payroll](https://github.com/bell-kevin/ch8payrollWith2dArrayAndFile/blob/main/payroll2dArray.PNG)
 
 The file has 6 lines in it, one for each employee. It begins with the pay rate for that employee, then has the hours worked for each day of the week. For example:
 
