@@ -13,7 +13,8 @@ int main()
 	//It begins with the pay rate for that employee, then has the hours worked for each day of the week.
 	//For example:
 	//10.00  8  7  7  8  6
-	//This record shows the pay rate for this employee is $10.00, and the employee worked 8 hours on Monday, 7 hours on Tuesday, 7 hours on Wednesday, 8 hours on Thursday, and 6 hours on Friday.
+	//This record shows the pay rate for this employee is $10.00, and the employee worked 8 hours on Monday, 7 hours on Tuesday, 7 hours on Wednesday, 8 hours on Thursday, 
+	// and 6 hours on Friday.
 	//You can read the first item from a line in this file, store it as the pay rate for this employee, then use a loop to read the next 5 items
 	//You can read the data into a single 2D array, with pay rate in the 0th (zeroth) cell in each row, then hours in the other 5 cells, one row for each employee. 
 	//Or you can use parallel arrays -- a regular array holding the pay rates, and a 2D array holding the hours worked for each day for each employee.
@@ -32,18 +33,29 @@ int main()
 	double hourlyPayRate = 0;	//Variable to hold the hourly pay rate for each employee
 	
 	//Open the file
-	std::ifstream inputFile;
+	ifstream inputFile;
 	inputFile.open("payroll.txt");
 		
 	//Read the data from the file into the 2D array
-	for (int i = 0; i < NUM_EMPLOYEES; i++)
+	if (inputFile)
 	{
-		inputFile >> hourlyPayRate, hours, hours, hours, hours, hours;
-		for (int j = 0; j < NUM_DAYS; j++)
-		{
-			inputFile >> hours[i][j];
-		} //end for loop
-	} //end for loop
+		if (inputFile.is_open()) {
+			cout << "File opened successfully.\n\n";
+			for (int i = 0; i < NUM_EMPLOYEES; i++)
+			{
+				inputFile >> payRate[i];
+				for (int j = 0; j < NUM_DAYS; j++)
+				{
+					inputFile >> hours[i][j];
+				}
+			}
+		}
+	}
+	else
+	{
+		cout << "Error opening the file.\n";
+	}
+
 	
 	//Close the file
 	inputFile.close();
