@@ -34,28 +34,19 @@ int main()
 	
 	//Open the file
 	ifstream inputFile;
-	inputFile.open("payroll.txt");
-		
-	//Read the data from the file into the 2D array
-	if (inputFile)
-	{
-		if (inputFile.is_open()) {
-			cout << "File opened successfully.\n\n";
-			for (int i = 0; i < NUM_EMPLOYEES; i++)
-			{
-				inputFile >> payRate[i];
-				for (int j = 0; j < NUM_DAYS; j++)
-				{
-					inputFile >> hours[i][j];
-				}
-			}
-		}
-	}
-	else
-	{
-		cout << "Error opening the file.\n";
-	}
+	inputFile.open("payroll.txt");		//Open the file
 
+	//Read the data from the file into the 2D array
+	for (int i = 0; i < NUM_EMPLOYEES; i++)
+	{
+		inputFile >> payRate[i];	//Read the pay rate for each employee
+		for (int j = 0; j < NUM_DAYS; j++)
+		{
+			inputFile >> hours[i][j];	//Read the hours worked for each employee for each day
+		}
+	} //End for loop
+	
+	
 	
 	//Close the file
 	inputFile.close();
